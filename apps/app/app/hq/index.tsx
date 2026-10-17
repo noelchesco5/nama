@@ -1,0 +1,22 @@
+import { StyleSheet, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+
+import { Button, Screen, Title } from '@/components/ui';
+import { useAuth } from '@/lib/auth';
+
+export default function HqHome() {
+  const { t } = useTranslation();
+  const { signOut } = useAuth();
+
+  return (
+    <Screen>
+      <Title>{t('home.hqTitle')}</Title>
+      <View style={styles.body} />
+      <Button title={t('common.signOut')} onPress={() => void signOut()} variant="secondary" />
+    </Screen>
+  );
+}
+
+const styles = StyleSheet.create({
+  body: { flex: 1 },
+});

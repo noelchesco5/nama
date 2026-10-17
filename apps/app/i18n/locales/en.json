@@ -1,0 +1,33 @@
+{
+  "common": {
+    "appName": "Nama",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "signOut": "Sign out",
+    "loading": "Loading",
+    "error": "Something went wrong. Please try again."
+  },
+  "auth": {
+    "signInTitle": "Welcome back",
+    "signUpTitle": "Create your account",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full name",
+    "phone": "Phone number",
+    "iAmA": "I am a",
+    "client": "Client",
+    "specialist": "Specialist",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "noAccount": "New to Nama?",
+    "haveAccount": "Already have an account?",
+    "changePasswordTitle": "Choose a new password",
+    "mustChange": "For your security, please choose a new password before continuing."
+  },
+  "home": {
+    "clientGreeting": "Hello",
+    "specialistPending": "Your application is being reviewed",
+    "specialistPendingBody": "We will let you know as soon as your account is approved.",
+    "hqTitle": "Nama HQ"
+  }
+}

@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+build/
+web-build/
+.expo/
+apps/app/android/
+apps/app/ios/
+
+# secrets - never commit
+.env
+.env.*
+!.env.example
+keysanddetails.txt
+*.pem
+*.p12
+*.jks
+*.keystore
+
+# supabase local
+supabase/.temp/
+supabase/.branches/
+supabase/.env
+
+# tests / logs / editors
+coverage/
+*.log
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

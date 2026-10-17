@@ -1,0 +1,33 @@
+{
+  "common": {
+    "appName": "Nama",
+    "continue": "Endelea",
+    "cancel": "Ghairi",
+    "signOut": "Toka",
+    "loading": "Inapakia",
+    "error": "Kuna hitilafu. Tafadhali jaribu tena."
+  },
+  "auth": {
+    "signInTitle": "Karibu tena",
+    "signUpTitle": "Fungua akaunti yako",
+    "email": "Barua pepe",
+    "password": "Nenosiri",
+    "fullName": "Jina kamili",
+    "phone": "Namba ya simu",
+    "iAmA": "Mimi ni",
+    "client": "Mteja",
+    "specialist": "Mtaalamu",
+    "signIn": "Ingia",
+    "signUp": "Fungua akaunti",
+    "noAccount": "Ni mgeni Nama?",
+    "haveAccount": "Tayari una akaunti?",
+    "changePasswordTitle": "Chagua nenosiri jipya",
+    "mustChange": "Kwa usalama wako, tafadhali chagua nenosiri jipya kabla ya kuendelea."
+  },
+  "home": {
+    "clientGreeting": "Habari",
+    "specialistPending": "Maombi yako yanapitiwa",
+    "specialistPendingBody": "Tutakujulisha mara tu akaunti yako itakapoidhinishwa.",
+    "hqTitle": "Nama HQ"
+  }
+}

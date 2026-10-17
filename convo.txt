@@ -1,0 +1,241 @@
+nama - CONVO (running notes from the assistant)
+Read: instructions/01, 02, 03 + opencode.json + plan.md + docs/keys-and-decisions.md
+      + convo.txt + keysanddetails.txt. Repo: one init commit, all notes untracked.
+
+================================================================================
+TURN 4 - REVIEW OF keysanddetails.txt BEFORE STARTING
+================================================================================
+
+--------------------------------------------------------------------------------
+KEYS RECEIVED (do not commit these; .env + GitHub secrets only)
+--------------------------------------------------------------------------------
+Supabase URL          https://fgrvexkhluhlxgxfqgmn.supabase.co
+service_role key      received (edge/CI only, never in the bundle)
+PAT                   sb_secret_... (Supabase CLI / CI migrations)
+DB password           received
+ORS key               received (stays inside the find_specialists edge function)
+MapTiler key          received (tile URL stays in config, never hardcoded OSM)
+APK build key         rqHnPLH4... with username ncq / echesco05@gmail.com
+                      -> IDENTITY UNCLEAR, see Q2
+HQ seed               name "Nama", email nama@nama.com
+
+STILL MISSING (from docs/keys-and-decisions.md):
+  1. Supabase ANON KEY - blocks Phase 0, the app cannot talk to Supabase
+  10. transactional email key - user says no spend, in-app notifications only
+      => need a decision on how signup confirmation works (see Q5)
+  12. HQ initial password (secret) - blocks Phase 0 seeding
+  7. Cloudflare token + account ID   (Phase 4)
+  8. Android release keystore        (Phase 4)
+  9. PGP key for backups             (Phase 4)
+  11. error tracker DSN              (optional)
+Config data: merchant numbers, HQ hours, launch city, emergency numbers
+      -> user said "at the very end". Non-blocking until Phase 1/4.
+
+--------------------------------------------------------------------------------
+YOUR ANSWERS AS I READ THEM (confirm or correct)
+--------------------------------------------------------------------------------
+1  Platform fee = a percentage, set and changeable by HQ (money held in escrow).
+   -> need a starting value, see Q6
+2  Refunds, HQ may alter terms later: >6h before start = full refund;
+   <6h = up to 75%; "less than one" = under 1h = up to 50%. (Q7 confirms tiers)
+3  "no" -> the 10-minute review timer does NOT pause outside HQ hours.
+   It runs continuously; copy tells the client review happens at opening.
+4  Acceptance window = 15 minutes. On expiry: auto-reroute to the nearest
+   available specialist but ASK THE CLIENT FIRST. Also handle favourites and
+   recurring providers (client can link up with a chosen specialist for repeats).
+5  Address: "approximate would be good but exact is better, depends on internet"
+   -> ambiguous, Q9
+6  Seed ONE HQ (Nama, nama@nama.com). HQ can create further HQ logins with
+   different emails, user types and passwords, with CHECKBOXES for which
+   features each may see/access. => per-feature permission matrix, new scope.
+7  Wellbeing check-in: yes, important. PLUS new requirement: in-app audio/video
+   calls between users that are free, encrypted and safe, with a notified
+   record of the call that either side can reference later. (Q10)
+8  No sample specialists. Leave the map empty until real approvals
+   ("wait for Real [specialists]").
+9  Yes, clients may book for a family member.
+
+--------------------------------------------------------------------------------
+NEW REQUIREMENTS YOU ADDED (not in the original three docs)
+--------------------------------------------------------------------------------
+R1  Three account types agreed, and onboarding must reflect them.
+    -> what are the three? see Q12
+R2  Specialist onboarding must collect: licence DOCUMENT upload, licence number,
+    board credentials, NIDA, phone number.
+R3  Specialist console is LOCKED after signup. Sequence as I understand it:
+      submit profile -> HQ manually reviews -> HQ grants token/unlocks
+      -> specialist now sees an Onboarding-fee card in the Business tab
+         (amount set by HQ, payment number set by HQ)
+      -> specialist pays it, taps confirm (same manual logic as wallet top-up)
+      -> HQ manually confirms the payment in the HQ console
+      -> console access is granted
+    => two HQ gates. Q13 confirms order, one-time/refundable.
+R4  First entry into the specialist console = short onboarding: rates for online
+    and in-person, preferred working times, fiscal/professional details.
+R5  Design the specialist side for: finances, reports, claims, and HQ ability to
+    block a bad actor. (Phase 3 material, will fold into plan.)
+R6  Payments: implement the flow and let HQ change merchant credentials any time
+    (snapshot per request already covers this - audited edits).
+R7  Non-HQ UX: NO jargon, no over-technicality. Silent, sophisticated auth,
+    plus an extensive Terms + Privacy Policy. Ordinary users never see tech.
+R8  HQ is supreme over the system. Chats are end-to-end encrypted. HQ can see
+    chat content ONLY when a user reports something, and then only a selected
+    day or date range, and that access is logged. -> conflicts with plain
+    Supabase-side chat, see Q11
+R9  HQ review hours + launch city: provided at the very end.
+R10 In-app notifications only for now; no email/SMS spend at all.
+
+--------------------------------------------------------------------------------
+QUESTIONS THAT BLOCK STARTING
+--------------------------------------------------------------------------------
+Q1  Anon key. Not in keysanddetails.txt. Paste it (sb_publish_... or eyJ...),
+    Phase 0 cannot start without it.
+Q2  What is rqHnPLH4... ? An Expo/EAS access token? plan.md currently builds
+    the APK on GitHub Actions, which needs NO key. Confirm:
+      (a) GitHub Actions build (no key, recommended) or
+      (b) EAS cloud build with this token (monthly free quota risk).
+Q3  HQ seed password for nama@nama.com - give me the value now as a secret
+    (it is hashed at rest and forced to change on first sign-in).
+Q4  Confirm: no transactional email at all, ever, for v1?
+Q5  If yes to Q4, how does signup confirm the email? Options:
+      (a) email confirmation OFF for the pilot (fastest, zero cost, recommended)
+      (b) Supabase built-in sender (heavily rate-limited)
+      (c) email provider later when you can spend.
+Q6  Starting platform fee percent (HQ can change it later). Default 10%?
+Q7  Confirm refund tiers: >6h full / 1h-6h up to 75% / under 1h up to 50%?
+    "less than one" = less than one HOUR before start?
+Q8  Confirm Q3 answer "no": timer never pauses, even at night?
+Q9  Address shown to clients BEFORE booking: approximate area only, or exact?
+    One line, please - it drives map privacy + RLS in Phase 2.
+Q10 Video/audio calls + recording. This is NEW scope (the docs put video
+    consults out of v1) and recording costs storage you said you cannot spend
+    on. Pick one:
+      (a) calls now, peer-to-peer and free, NO recording (recommended v1)
+      (b) calls now, recording stored in Supabase (1 GB free tier)
+      (c) defer calls to a later phase.
+Q11 Chat encryption level - these two cannot both be fully true:
+      (a) RLS-scoped chat in Supabase, HQ reads ONLY on a report, within a
+          chosen date range, every access written to the audit log. Enforced
+          by policy, HQ is "god". (recommended, matches your description)
+      (b) true end-to-end cryptography: then HQ cannot read chats on report
+          either unless keys are escrowed, and it costs a lot of complexity.
+    Which do you actually want?
+Q12 What are the three account types? (a) client / specialist / HQ, or
+    (b) three payment rails, or (c) something else?
+Q13 Onboarding fee: one-time? refundable? and confirm the two-gate order in R3.
+Q14 NIDA: mandatory for every specialist type, and is the number stored
+    alongside the uploaded ID document? (sensitive data, retention rules)
+Q15 HQ sub-accounts: list the feature checkboxes you want. My proposal:
+    payments, appeals, merchant numbers, specialists, bookings/cases, tickets,
+    analytics, audit log. Each HQ account also gets MFA.
+Q16 Family-member booking: what name does the specialist see? "Booked for:
+    (name)"? Any age rules for children?
+
+--------------------------------------------------------------------------------
+DEFAULTS I WILL USE IF YOU DO NOT ANSWER (non-blocking)
+--------------------------------------------------------------------------------
+D1  Refund tiers exactly as in Q7 wording, values in settings, HQ editable.
+D2  Acceptance window 15 min, hold released on expiry, reroute asks client.
+D3  Seeded HQ: Nama / nama@nama.com / secret password / must_change / MFA.
+D4  Three account types = client, specialist, HQ (if Q12 stays silent).
+D5  Fee default 10% until you set another number in the HQ console.
+D6  Sample specialists: none. Map empty until HQ approves real ones.
+D7  Notifications = DB rows + in-app only. No email, no SMS, no OS push.
+D8  Chat = option (a) in Q11, described to users as protected and reviewed
+    only when they report, never as "end-to-end encrypted" unless Q11 = (b).
+
+--------------------------------------------------------------------------------
+PHASE ORDER UNCHANGED (plan.md)
+--------------------------------------------------------------------------------
+Phase 0 foundations -> Phase 1 money -> Phase 2 ordering
+-> Phase 3 specialist business + HQ depth -> Phase 4 launch hardening
+Say "go phase 0" and I start; I will not stop until the phase exit criteria
+pass. Missing keys get placeholders in .env.example, never in code.
+
+================================================================================
+PHASE 0 PROGRESS UPDATE
+================================================================================
+Decided to use the HOSTED Supabase project instead of local Docker: this
+sandbox blocks container-to-container traffic on user-defined Docker bridges,
+so `supabase start` cannot work (see docs/issues-and-lessons.md I-001).
+Hosted is also the real deployment target.
+
+Done:
+- packages/shared green (money, roles, schemas, constants; 14 tests, tsc, oxlint).
+- Root scaffold: package.json, pnpm-workspace.yaml, .gitignore, .env.example,
+  opencode.json.
+- supabase/config.toml prepared (hook URI, MFA, min password length, site_url).
+- Four migrations applied to hosted project fgrvexkhluhlxgxfqgmn:
+  extensions, core schema, functions/hook/triggers, RLS.
+- Connected via IPv4 pooler aws-0-ap-south-1.pooler.supabase.com (direct host is
+  IPv6-only). DB password + service_role JWT from keysanddetails.txt.
+- SQL security tests (supabase/tests/phase0_rls.sql) PASS: trigger creates
+  client profile+role, specialist gets specialist_profiles, client A cannot read
+  client B, HQ sees all, authenticated cannot write user_roles, audit_log
+  update/delete rejected, authorize('hq') true only with the hq claim.
+- HQ seeded: nama@nama.com / mewEqojYHWa7MNEkulmU / must_change_password=true,
+  role hq. scripts/seed-hq.mjs.
+- scripts/smoke-auth.mjs: three roles + a second client can sign in; each
+  non-HQ user sees only its own profile through PostgREST.
+
+Blocked / needs the user (dashboard actions):
+1. EXPO_PUBLIC_SUPABASE_ANON_KEY (publishable/anon key) - required for the app
+   and a true smoke test. Not derivable from SQL (I-005). Get from dashboard.
+2. Enable Authentication > Hooks > Custom Access Token ->
+   pg-functions://postgres/public/custom_access_token_hook (I-006). Without it
+   the JWT has no user_role claim and HQ cannot see all profiles. Function is
+   verified correct in isolation.
+3. Optional: a Management API token (sbp_...) for fully scripted project setup.
+   The provided sb_secret_... is a new-format API key, not a PAT (I-004).
+4. HQ_INITIAL_PASSWORD is generated as mewEqojYHWa7MNEkulmU; change after first
+   login. Stored in local .env only, never committed.
+
+Phase 0 exit criteria remaining: enable the hook, drop in the anon key, re-run
+`pnpm run smoke:auth` (expect SMOKE_PASSED). Then Phase 0 is complete.
+
+--------------------------------------------------------------------------------
+PHASE 0 - APP SCAFFOLD (continued)
+--------------------------------------------------------------------------------
+Built apps/app: Expo 58 + Expo Router 58 + TS + TanStack Query + zod +
+i18next EN/SW (device-language default, instant switch) + Supabase client.
+
+Key decisions:
+- authorize() is now DB-authoritative (reads user_roles via SECURITY DEFINER
+  keyed on auth.uid()). RLS no longer depends on the optional dashboard hook;
+  the hook stays deployed for optional JWT role caching. Migration 005.
+- Supabase client guards browser-only APIs during Expo static web render.
+
+Routes: app/index (role gate), (auth) sign-in/sign-up/change-password,
+(client) home, (specialist) home (pending state), hq home, +not-found.
+Theme tokens + components/ui kit. Design tokens per UX spec (no emoji).
+
+Checks: pnpm typecheck / lint / test all green. expo export --platform web
+produces 12 static routes. .github/workflows/ci.yml added (checks, web export,
+local-Supabase RLS job).
+
+STILL NEED FROM YOU (blocking the real app, not the code):
+1. Supabase anon/publishable key -> EXPO_PUBLIC_SUPABASE_ANON_KEY in .env.
+   (Service role key is already wired but is NOT for the client bundle.)
+2. Optional: enable Authentication > Hooks > Custom Access Token so the app can
+   read the role from the JWT (RLS already works without it).
+3. Optional: a Management API token (sbp_...) so project setup can be scripted.
+
+Phase 0 is functionally complete; items 1-2 only need dashboard action + the
+anon key. Once you paste the anon key I will wire it and re-run the smoke test
+against the app path.
+
+=== PHASE 1 - MONEY CORE (progress) ===
+- Applied migration 00100_money_core: accounts (with external balancing acct),
+  ledger_txns/ledger_entries, append-only triggers, DEFERRED debits=credits
+  constraint, post_txn (idempotent, ordered locks, non-negative wallets, audit).
+- Applied migration 00200_money_flows: merchant_numbers, payment_requests,
+  notifications, standard postings (topup/hold/completion 7%/refund),
+  request_topup/approve_topup/reject_topup/expire_topups, RLS, pg_cron
+  (nama_expire_topups every 5 min - confirmed in cron.job).
+- Tests pass on hosted DB: phase0_rls, phase1_money, phase1_topup.
+  Workspace typecheck/lint/test green.
+- Notes: authorize() is DB-authoritative; auto-verify split from approve for
+  the auth guard (I-015); enum-add-value needed a clean re-apply (I-013/I-014).
+- Open in Phase 1: partial refund ≤75% + no-show postings, appeals/cancel/
+  reason codes/rate limits, payment-evidence bucket, HQ merchant audit fn,
+  client wallet + add-money UI, HQ payments queue.

@@ -1,0 +1,5 @@
+-- nama - seed file (loaded on `supabase db reset`).
+-- Deliberately empty of secrets. The HQ account is created by
+-- `scripts/seed-hq.mjs` from environment variables, never from SQL.
+-- Sample specialists are intentionally NOT seeded: the map stays empty until
+-- HQ approves real specialists.
