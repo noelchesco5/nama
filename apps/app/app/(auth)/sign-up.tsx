@@ -18,7 +18,6 @@ export default function SignUp() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [intendedRole, setIntendedRole] = useState<'client' | 'specialist'>('client');
-  const [agreedToTerms, setAgreedToTerms] = useState(true);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -26,10 +25,6 @@ export default function SignUp() {
 
   const onSubmit = async () => {
     setError(null);
-    if (!agreedToTerms) {
-      setError('Please agree to the Terms of Service and Privacy Policy to continue.');
-      return;
-    }
     const parsed = signUpSchema.safeParse({
       email: email.trim().toLowerCase(),
       password,
@@ -125,20 +120,14 @@ export default function SignUp() {
           placeholder="At least 6 characters"
         />
 
-        {/* Terms agreement checkbox & clickable link */}
-        <View style={styles.termsRow}>
-          <Pressable
-            style={[styles.checkbox, agreedToTerms && styles.checkboxChecked]}
-            onPress={() => setAgreedToTerms(!agreedToTerms)}
-          >
-            {agreedToTerms && <Text style={styles.checkmark}>✓</Text>}
+        {/* Frictionless Terms notice */}
+        <View style={styles.termsNoticeBox}>
+          <Text style={styles.termsNoticeText}>
+            By signing up, you agree to Nama's{' '}
+          </Text>
+          <Pressable onPress={() => setShowTermsModal(true)}>
+            <Text style={styles.termsLink}>Terms of Service & Privacy Policy</Text>
           </Pressable>
-          <View style={styles.termsTextView}>
-            <Text style={styles.termsText}>I agree to the Nama </Text>
-            <Pressable onPress={() => setShowTermsModal(true)}>
-              <Text style={styles.termsLink}>Terms of Service & Privacy Policy</Text>
-            </Pressable>
-          </View>
         </View>
 
         {error ? <ErrorText message={error} /> : null}
@@ -168,7 +157,7 @@ export default function SignUp() {
                 We respect your privacy. NIDA identification numbers, phone numbers, and location data are collected solely for safety, identity verification, and dispatch coordination, stored securely and never sold to third parties.
               </Text>
             </ScrollView>
-            <Button title="Close & Accept" onPress={() => { setAgreedToTerms(true); setShowTermsModal(false); }} />
+            <Button title="Close" onPress={() => setShowTermsModal(false)} />
           </View>
         </View>
       </Modal>
@@ -195,12 +184,8 @@ const styles = StyleSheet.create({
   chipActive: { backgroundColor: colors.mint, borderColor: colors.deepGreen },
   chipText: { color: colors.charcoal, fontWeight: '600' },
   chipTextActive: { color: colors.deepGreen, fontWeight: '800' },
-  termsRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginVertical: 4 },
-  checkbox: { width: 22, height: 22, borderRadius: 6, borderWidth: 2, borderColor: colors.deepGreen, alignItems: 'center', justifyContent: 'center' },
-  checkboxChecked: { backgroundColor: colors.deepGreen },
-  checkmark: { color: '#FFFFFF', fontSize: 14, fontWeight: '800' },
-  termsTextView: { flex: 1, flexDirection: 'row', flexWrap: 'wrap' },
-  termsText: { fontSize: 13, color: colors.charcoal, opacity: 0.8 },
+  termsNoticeBox: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginVertical: 4 },
+  termsNoticeText: { fontSize: 13, color: colors.charcoal, opacity: 0.8 },
   termsLink: { fontSize: 13, color: colors.deepGreen, fontWeight: '700', textDecorationLine: 'underline' },
   row: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 16 },
   footerPrompt: { color: colors.charcoal, opacity: 0.8 },
