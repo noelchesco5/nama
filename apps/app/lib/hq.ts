@@ -26,6 +26,26 @@ export async function resolveAppeal(request_id: string, approve: boolean, note?:
   if (error) throw error;
 }
 
+export async function fetchHqMetrics() {
+  const [reqsRes, casesRes, specsRes, bookingsRes] = await Promise.all([
+    supabase.from('payment_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('refund_cases').select('id', { count: 'exact', head: true }),
+    supabase.from('specialist_profiles').select('user_id', { count: 'exact', head: true }),
+    supabase.from('bookings').select('id', { count: 'exact', head: true }),
+  ]);
+
+  return {
+    pendingTopupsCount: reqsRes.count ?? 0,
+    openCasesCount: casesRes.count ?? 0,
+    totalSpecialists: specsRes.count ?? 0,
+    totalBookings: bookingsRes.count ?? 0,
+  };
+}
+
 export function useAllPaymentRequests() {
   return useQuery({ queryKey: ['hq-payment-requests'], queryFn: fetchAllPaymentRequests });
+}
+
+export function useHqMetrics() {
+  return useQuery({ queryKey: ['hq-metrics'], queryFn: fetchHqMetrics });
 }

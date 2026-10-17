@@ -1,16 +1,17 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 
 import { Screen, Card, Button, Title, Subtitle } from '@/components/ui';
 import { useAuth } from '@/lib/auth';
+import { useHqMetrics } from '@/lib/hq';
 import { colors } from '@/constants/theme';
-import { formatTzs } from '@nama/shared';
 
 export default function HqHome() {
   const { t } = useTranslation();
   const { signOut } = useAuth();
   const router = useRouter();
+  const { data: metrics, isLoading } = useHqMetrics();
 
   return (
     <Screen scroll>
@@ -25,43 +26,47 @@ export default function HqHome() {
           <Text style={styles.liveText}>Dar es Salaam Live</Text>
         </View>
       </View>
-      <Subtitle>Command center for payment verification, dispute resolution, specialist vetting, and platform telemetry.</Subtitle>
+      <Subtitle>Command center for real-time payment verification, dispute resolution, specialist vetting, and platform telemetry.</Subtitle>
 
-      {/* KPI Overview Grid */}
-      <View style={styles.kpiGrid}>
-        <Card variant="green" style={styles.kpiCard}>
-          <Text style={styles.kpiLabel}>Total Platform Revenue</Text>
-          <Text style={styles.kpiValue}>{formatTzs(BigInt(1425000))}</Text>
-          <Text style={styles.kpiSub}>+14% vs last week</Text>
-        </Card>
-        <Card variant="mint" style={styles.kpiCard}>
-          <Text style={styles.kpiLabel}>Active Specialists</Text>
-          <Text style={styles.kpiValue}>24 Online</Text>
-          <Text style={styles.kpiSub}>Verified & Ready</Text>
-        </Card>
-        <Card style={styles.kpiCard}>
-          <Text style={styles.kpiLabel}>Pending Top-ups</Text>
-          <Text style={[styles.kpiValue, { color: '#B7791F' }]}>3 Queue</Text>
-          <Text style={styles.kpiSub}>Requires review</Text>
-        </Card>
-        <Card style={styles.kpiCard}>
-          <Text style={styles.kpiLabel}>Open Cases / Disputes</Text>
-          <Text style={[styles.kpiValue, { color: '#B3261E' }]}>1 Case</Text>
-          <Text style={styles.kpiSub}>Escalated</Text>
-        </Card>
-      </View>
+      {/* Real-time KPI Overview Grid */}
+      {isLoading ? (
+        <ActivityIndicator color={colors.deepGreen} style={{ marginVertical: 24 }} />
+      ) : (
+        <View style={styles.kpiGrid}>
+          <Card variant="green" style={styles.kpiCard}>
+            <Text style={styles.kpiLabel}>Total Bookings</Text>
+            <Text style={styles.kpiValue}>{metrics?.totalBookings ?? 0}</Text>
+            <Text style={styles.kpiSub}>Platform wide</Text>
+          </Card>
+          <Card variant="mint" style={styles.kpiCard}>
+            <Text style={styles.kpiLabel}>Registered Specialists</Text>
+            <Text style={styles.kpiValue}>{metrics?.totalSpecialists ?? 0}</Text>
+            <Text style={styles.kpiSub}>Verified profiles</Text>
+          </Card>
+          <Card style={styles.kpiCard}>
+            <Text style={styles.kpiLabel}>Pending Top-ups</Text>
+            <Text style={[styles.kpiValue, { color: '#B7791F' }]}>{metrics?.pendingTopupsCount ?? 0}</Text>
+            <Text style={styles.kpiSub}>Awaiting HQ review</Text>
+          </Card>
+          <Card style={styles.kpiCard}>
+            <Text style={styles.kpiLabel}>Refund Cases</Text>
+            <Text style={[styles.kpiValue, { color: '#B3261E' }]}>{metrics?.openCasesCount ?? 0}</Text>
+            <Text style={styles.kpiSub}>Dispute queue</Text>
+          </Card>
+        </View>
+      )}
 
-      {/* Live Map / Service Zones Widget */}
+      {/* Dar es Salaam Service Zones Widget */}
       <Card style={styles.mapWidget}>
         <View style={styles.mapHeader}>
           <Text style={styles.mapTitle}>🗺 Dar es Salaam Service Radar</Text>
-          <Text style={styles.mapSub}>H3 Spatial Indexing • 4 Zones Active</Text>
+          <Text style={styles.mapSub}>H3 Spatial Indexing • Active Hub</Text>
         </View>
         <View style={styles.mapContainer}>
-          <View style={styles.mapPin1}><Text style={styles.pinText}>📍 Kinondoni (8)</Text></View>
-          <View style={styles.mapPin2}><Text style={styles.pinText}>📍 Ilala (6)</Text></View>
-          <View style={styles.mapPin3}><Text style={styles.pinText}>📍 Temeke (5)</Text></View>
-          <View style={styles.mapPin4}><Text style={styles.pinText}>📍 Ubungo (5)</Text></View>
+          <View style={styles.mapPin1}><Text style={styles.pinText}>📍 Kinondoni</Text></View>
+          <View style={styles.mapPin2}><Text style={styles.pinText}>📍 Ilala</Text></View>
+          <View style={styles.mapPin3}><Text style={styles.pinText}>📍 Temeke</Text></View>
+          <View style={styles.mapPin4}><Text style={styles.pinText}>📍 Ubungo</Text></View>
         </View>
       </Card>
 
