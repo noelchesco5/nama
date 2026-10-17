@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ErrorText, Field, Screen, Subtitle, Title } from '@/components/ui';
+import { Button, ErrorText, Field, Screen, Subtitle, Title, Card } from '@/components/ui';
 import { colors, spacing } from '@/constants/theme';
 import { useRequestBooking } from '@/lib/bookings';
 import { formatTzs } from '@nama/shared';
@@ -15,16 +15,10 @@ function tomorrow(): string {
 }
 
 function parseWhen(when: string, hour: string): Date | null {
-  const d = new Date(`${when}T${hour}`);
+  const d = new Date(`${when}T${hour}:00Z`);
   return Number.isNaN(d.getTime()) ? null : d;
 }
 
-function fmt(d: Date): string {
-  return d.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
-}
-
-// Three-step booking: when -> where/who -> confirm. The form holds exactly
-// the fields request_booking() accepts; the DB validates the rest.
 export default function BookFlow() {
   const { t } = useTranslation();
   const router = useRouter();
@@ -81,32 +75,48 @@ export default function BookFlow() {
 
   return (
     <Screen scroll>
-      <Title>{params.name ?? t('book.bookings')}</Title>
-      <Subtitle>
-        {t('book.pricePerVisit')}: {formatTzs(BigInt(price))}
-      </Subtitle>
-      <Text style={styles.stepLabel}>{t('book.step')} {step}/3</Text>
+      <View style={styles.headerRow}>
+        <Title>{params.name ?? t('book.bookings')}</Title>
+        <Text style={styles.priceTag}>{formatTzs(BigInt(price))}</Text>
+      </View>
+      <Subtitle>Book verified care at your home. Escrow protected.</Subtitle>
+
+      <View style={styles.stepsIndicator}>
+        <View style={[styles.stepDot, step >= 1 && styles.stepDotActive]} />
+        <View style={[styles.stepDot, step >= 2 && styles.stepDotActive]} />
+        <View style={[styles.stepDot, step >= 3 && styles.stepDotActive]} />
+        <Text style={styles.stepLabel}>Step {step} of 3</Text>
+      </View>
 
       {step === 1 && (
-        <>
+        <Card style={styles.card}>
+          <Text style={styles.cardHeader}>1. Choose date and time</Text>
           <Field
-            label={t('book.date')}
+            label="Date (YYYY-MM-DD)"
             value={when}
             onChangeText={setWhen}
             autoCapitalize="none"
           />
           <Field
-            label={t('book.time')}
+            label="Time (HH:MM)"
             value={hour}
             onChangeText={setHour}
             autoCapitalize="none"
           />
+          <View style={styles.timeChips}>
+            {['09:00', '11:00', '14:00', '16:00'].map((h) => (
+              <Pressable key={h} style={styles.chip} onPress={() => setHour(h)}>
+                <Text style={styles.chipText}>{h}</Text>
+              </Pressable>
+            ))}
+          </View>
           <Button title={t('common.continue')} onPress={next} />
-        </>
+        </Card>
       )}
 
       {step === 2 && (
-        <>
+        <Card style={styles.card}>
+          <Text style={styles.cardHeader}>2. Where & Who is this for?</Text>
           <Field
             label={t('book.address')}
             value={address}
@@ -121,38 +131,45 @@ export default function BookFlow() {
             placeholder={t('book.forNameHint')}
           />
           <Button title={t('common.continue')} onPress={next} />
-          <Button variant="secondary" title={t('common.cancel')} onPress={() => setStep(1)} />
-        </>
+          <Button variant="secondary" title="Back" onPress={() => setStep(1)} />
+        </Card>
       )}
 
       {step === 3 && (
-        <>
-          <View style={styles.summary}>
-            <Text style={styles.summaryLine}>
-              {t('book.date')}: {parsed ? fmt(parsed) : '—'}
-            </Text>
-            <Text style={styles.summaryLine}>
-              {t('book.address')}: {address || t('book.noAddress')}
-            </Text>
-            <Text style={styles.summaryLine}>
-              {t('book.forName')}: {forName || t('book.forSelf')}
-            </Text>
-            <Text style={[styles.summaryLine, styles.summaryPrice]}>
-              {t('book.holdNote', { amount: formatTzs(BigInt(price)) })}
-            </Text>
+        <Card style={styles.card} variant="mint">
+          <Text style={styles.cardHeader}>3. Review & Hold Escrow</Text>
+          <View style={styles.summaryBox}>
+            <Text style={styles.summaryLine}>📅 When: {when} at {hour}</Text>
+            <Text style={styles.summaryLine}>📍 Where: {address || 'Home (default)'}</Text>
+            <Text style={styles.summaryLine}>👤 For: {forName || 'Self'}</Text>
+            <Text style={styles.summaryLine}>💰 Total: {formatTzs(BigInt(price))}</Text>
           </View>
+          <Text style={styles.cancelPolicy}>
+            Cancellation policy: Free cancel &gt;6h ahead. Under 6h, subject to review. Funds are held in escrow and released only upon completion.
+          </Text>
           <Button title={t('book.confirmRequest')} onPress={submit} loading={confirming} />
-          <Button variant="secondary" title={t('common.cancel')} onPress={() => setStep(2)} />
-        </>
+          <Button variant="secondary" title="Back" onPress={() => setStep(2)} />
+        </Card>
       )}
+
       <ErrorText message={error ?? undefined} />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  stepLabel: { fontSize: 13, opacity: 0.6, color: colors.charcoal },
-  summary: { backgroundColor: '#FFFFFF', borderRadius: 12, padding: spacing.lg, gap: spacing.sm },
-  summaryLine: { fontSize: 15, color: colors.charcoal },
-  summaryPrice: { fontWeight: '700', marginTop: 4 },
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  priceTag: { fontSize: 18, fontWeight: '800', color: colors.deepGreen },
+  stepsIndicator: { flexDirection: 'row', alignItems: 'center', gap: 8, marginVertical: 4 },
+  stepDot: { width: 24, height: 6, borderRadius: 3, backgroundColor: colors.border },
+  stepDotActive: { backgroundColor: colors.deepGreen, width: 36 },
+  stepLabel: { fontSize: 13, fontWeight: '700', color: colors.charcoal, opacity: 0.6, marginLeft: 8 },
+  card: { padding: 24, borderRadius: 20, gap: 16 },
+  cardHeader: { fontSize: 18, fontWeight: '800', color: colors.charcoal },
+  timeChips: { flexDirection: 'row', gap: 8, marginVertical: 4 },
+  chip: { backgroundColor: colors.softWhite, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 14, borderWidth: 1, borderColor: colors.border },
+  chipText: { fontSize: 14, fontWeight: '700', color: colors.deepGreen },
+  summaryBox: { backgroundColor: '#FFFFFF', padding: 16, borderRadius: 14, gap: 8, borderWidth: 1, borderColor: colors.border },
+  summaryLine: { fontSize: 15, fontWeight: '600', color: colors.charcoal },
+  cancelPolicy: { fontSize: 12, color: colors.charcoal, opacity: 0.7, lineHeight: 18 },
 });

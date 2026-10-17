@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ErrorText, Screen, Subtitle, Title } from '@/components/ui';
+import { Button, ErrorText, Screen, Subtitle, Title, Card } from '@/components/ui';
 import { colors, radius, spacing } from '@/constants/theme';
 import { useServices, useSpecialists, type SpecialistListing } from '@/lib/bookings';
 import { useWalletBalance } from '@/lib/wallet';
@@ -29,79 +29,92 @@ export default function FindCare() {
 
   return (
     <Screen scroll>
-      <Title>{t('book.find')}</Title>
-      <Subtitle>{t('wallet.balance')}: {formatTzs(BigInt(wallet ?? 0))}</Subtitle>
+      <View style={styles.headerRow}>
+        <Title>{t('book.find')}</Title>
+        <Pressable style={styles.walletPill} onPress={() => router.push('/(client)/add-money')}>
+          <Text style={styles.walletPillText}>{formatTzs(BigInt(wallet ?? 0))}</Text>
+        </Pressable>
+      </View>
+      <Subtitle>Select a professional care service to view available specialists nearby.</Subtitle>
+
       <View style={styles.grid}>
         {(services ?? []).map((svc) => (
           <Pressable
             key={svc.id}
             onPress={() => setServiceId(svc.id)}
-            style={[styles.card, serviceId === svc.id && styles.cardActive]}
+            style={[styles.serviceCard, serviceId === svc.id && styles.serviceCardActive]}
           >
-            <Text style={styles.cardTitle}>{nameOf(svc)}</Text>
+            <Text style={[styles.serviceTitle, serviceId === svc.id && styles.serviceTitleActive]}>
+              {nameOf(svc)}
+            </Text>
             {svc.description_en ? (
-              <Text style={styles.cardSub}>{svc.description_en}</Text>
+              <Text style={styles.serviceDesc} numberOfLines={2}>{svc.description_en}</Text>
             ) : null}
           </Pressable>
         ))}
       </View>
+
       <ErrorText message={error?.message} />
+
       {serviceId && (
-        <>
-          <Text style={styles.section}>{t('book.availableSpecialists')}</Text>
+        <View style={styles.resultsSection}>
+          <Text style={styles.sectionHeader}>{t('book.availableSpecialists')}</Text>
           {specialists && specialists.length === 0 && (
-            <Text style={styles.none}>{t('book.noSpecialists')}</Text>
+            <Card variant="mint" style={styles.emptyCard}>
+              <Text style={styles.emptyText}>{t('book.noSpecialists')}</Text>
+            </Card>
           )}
           {(specialists ?? []).map((sp) => (
-            <Pressable key={sp.specialist_id} style={styles.spec} onPress={() => open(sp)}>
+            <Card key={sp.specialist_id} style={styles.specCard}>
               <View style={styles.specHead}>
-                <Text style={styles.specName}>{sp.display_name}</Text>
+                <View>
+                  <Text style={styles.specName}>{sp.display_name}</Text>
+                  <Text style={styles.specBio} numberOfLines={2}>{sp.bio ?? 'Verified professional care specialist.'}</Text>
+                </View>
                 <Text style={styles.specPrice}>{formatTzs(BigInt(sp.price_tzs))}</Text>
               </View>
-              {sp.bio ? <Text style={styles.specBio}>{sp.bio}</Text> : null}
-              <Text style={styles.specMeta}>
-                {sp.distance_km != null ? `${sp.distance_km} km • ` : ''}
-                {sp.rating_count
-                  ? `${t('book.rating')}: ${sp.rating_avg} (${sp.rating_count})`
-                  : t('book.newSpecialist')}
-              </Text>
-            </Pressable>
+              <View style={styles.specFooter}>
+                <Text style={styles.specMeta}>
+                  {sp.distance_km != null ? `${sp.distance_km} km • ` : ''}
+                  ⭐ {sp.rating_avg ? `${sp.rating_avg} (${sp.rating_count})` : 'New'}
+                </Text>
+                <Button title="Book visit" onPress={() => open(sp)} />
+              </View>
+            </Card>
           ))}
-        </>
-      )}
-      {!serviceId && (
-        <Link href="/(client)/bookings" asChild>
-          <Button variant="secondary" title={t('book.myVisits')} />
-        </Link>
+        </View>
       )}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
-  card: {
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  walletPill: { backgroundColor: colors.mint, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 18 },
+  walletPillText: { fontSize: 14, fontWeight: '700', color: colors.deepGreen },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 12 },
+  serviceCard: {
     width: '48%',
     backgroundColor: '#FFFFFF',
-    borderRadius: radius.md,
-    padding: spacing.lg,
+    borderRadius: 16,
+    padding: 16,
     borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: colors.border,
+    gap: 6,
   },
-  cardActive: { borderColor: colors.deepGreen },
-  cardTitle: { fontSize: 15, fontWeight: '700', color: colors.charcoal },
-  cardSub: { fontSize: 12, color: colors.charcoal, opacity: 0.7, marginTop: 4 },
-  section: { fontSize: 16, fontWeight: '700', color: colors.charcoal },
-  none: { opacity: 0.7 },
-  spec: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: radius.md,
-    padding: spacing.lg,
-    gap: spacing.xs,
-  },
-  specHead: { flexDirection: 'row', justifyContent: 'space-between' },
-  specName: { fontSize: 16, fontWeight: '700', color: colors.charcoal },
-  specPrice: { fontSize: 16, fontWeight: '700', color: colors.deepGreen },
-  specBio: { fontSize: 13, color: colors.charcoal, opacity: 0.8 },
-  specMeta: { fontSize: 12, color: colors.charcoal, opacity: 0.6 },
+  serviceCardActive: { borderColor: colors.deepGreen, backgroundColor: colors.mint },
+  serviceTitle: { fontSize: 15, fontWeight: '800', color: colors.charcoal },
+  serviceTitleActive: { color: colors.deepGreen },
+  serviceDesc: { fontSize: 12, color: colors.charcoal, opacity: 0.7, lineHeight: 16 },
+  resultsSection: { marginTop: 24, gap: 12 },
+  sectionHeader: { fontSize: 18, fontWeight: '800', color: colors.charcoal, marginBottom: 4 },
+  emptyCard: { padding: 20, alignItems: 'center' },
+  emptyText: { color: colors.charcoal, opacity: 0.8, textAlign: 'center' },
+  specCard: { padding: 20, borderRadius: 16, gap: 12 },
+  specHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  specName: { fontSize: 17, fontWeight: '800', color: colors.charcoal, marginBottom: 4 },
+  specBio: { fontSize: 13, color: colors.charcoal, opacity: 0.7, maxWidth: '70%' },
+  specPrice: { fontSize: 17, fontWeight: '800', color: colors.deepGreen },
+  specFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 4, paddingTop: 12, borderTopWidth: 1, borderTopColor: colors.border },
+  specMeta: { fontSize: 13, fontWeight: '600', color: colors.charcoal, opacity: 0.8 },
 });
