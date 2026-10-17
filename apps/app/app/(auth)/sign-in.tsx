@@ -32,11 +32,14 @@ export default function SignIn() {
     try {
       await signIn(parsedEmail.data, password);
     } catch (e) {
+      console.error('Sign-in failed:', e);
       const msg = e instanceof Error ? e.message : String(e);
-      if (msg.includes('Invalid login credentials') || msg.includes('invalid') || msg.includes('credentials')) {
-        setError('Incorrect email or password. Please try again.');
+      if (msg.includes('Email not confirmed')) {
+        setError('Email not confirmed. Please check your Supabase dashboard and ensure Email Confirmations is disabled, or confirm your email.');
+      } else if (msg.includes('Invalid login credentials') || msg.includes('invalid') || msg.includes('credentials') || msg.includes('422')) {
+        setError('Incorrect email or password, or email not confirmed in Supabase.');
       } else {
-        setError('Unable to sign in. Please check your connection and try again.');
+        setError(msg || 'Unable to sign in. Please check your connection and try again.');
       }
     } finally {
       setBusy(false);
