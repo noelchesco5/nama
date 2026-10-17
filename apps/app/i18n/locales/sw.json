@@ -129,6 +129,13 @@
     "decidedAmount": "Kiasi cha kumrejesha mteja",
     "decisionNote": "Maoni ya uamuzi",
     "resolve": "Azima swala",
-    "casesNote": "Unapoazima, kilichobaki kwenda kwa mtaalamu. Fedha hutoka escrow mara moja."
+    "casesNote": "Unapoazima, kilichobaki kwenda kwa mtaalamu. Fedha hutoka escrow mara moja.",
+    "onboarding": "Malipo ya kuanza",
+    "onboardingNote": "Thibitisha ada baada ya fedha kufika.",
+    "noOnboarding": "Hakuna malipo ya kuanza yanayosubiri.",
+    "onboardingSubmitted": "Yaliyotumwa:",
+    "onboardingConfirm": "Thibitisha na fungua kasa",
+    "audit": "Kumbukumbu ya ukaguzi",
+    "auditNote": "Kila kitendo, huongezwa tu. Hiehoki kubadilishwa."
   }
 }

@@ -11,6 +11,8 @@ export default function HqLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="payments" options={{ headerShown: true, title: 'Payments' }} />
       <Stack.Screen name="cases" options={{ headerShown: true, title: 'Refund cases' }} />
+      <Stack.Screen name="onboarding" options={{ headerShown: true, title: 'Onboarding' }} />
+      <Stack.Screen name="audit" options={{ headerShown: true, title: 'Audit log' }} />
     </Stack>
   );
 }

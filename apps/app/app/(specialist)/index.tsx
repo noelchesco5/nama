@@ -13,17 +13,21 @@ export default function SpecialistHome() {
   const router = useRouter();
   const { user, signOut } = useAuth();
   const [status, setStatus] = useState<string | null>(null);
+  const [unlocked, setUnlocked] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (!user) return;
     let active = true;
     void supabase
       .from('specialist_profiles')
-      .select('status')
+      .select('status, console_unlocked')
       .eq('user_id', user.id)
       .maybeSingle()
       .then(({ data }) => {
-        if (active) setStatus(data?.status ?? null);
+        if (active) {
+          setStatus(data?.status ?? null);
+          setUnlocked(data?.console_unlocked ?? null);
+        }
       });
     return () => {
       active = false;
@@ -31,6 +35,7 @@ export default function SpecialistHome() {
   }, [user]);
 
   const pending = status !== 'approved';
+  const gatedOnboarding = status === 'approved' && unlocked === false;
 
   return (
     <Screen>
@@ -42,13 +47,26 @@ export default function SpecialistHome() {
         </View>
       ) : (
         <View style={styles.body}>
-          <Subtitle>{t('common.appName')}</Subtitle>
-          <Button title={t('sp.requests')} onPress={() => router.push('/(specialist)/requests')} />
-          <Button
-            variant="secondary"
-            title={t('sp.earnings')}
-            onPress={() => router.push('/(specialist)/earnings')}
-          />
+          {gatedOnboarding ? (
+            <>
+              <Subtitle>{t('onb.gated')}</Subtitle>
+              <Button title={t('onb.title')} onPress={() => router.push('/(specialist)/onboarding')} />
+            </>
+          ) : (
+            <>
+              <Button title={t('sp.requests')} onPress={() => router.push('/(specialist)/requests')} />
+              <Button
+                variant="secondary"
+                title={t('sp.earnings')}
+                onPress={() => router.push('/(specialist)/earnings')}
+              />
+              <Button
+                variant="secondary"
+                title={t('sched.title')}
+                onPress={() => router.push('/(specialist)/schedule')}
+              />
+            </>
+          )}
         </View>
       )}
       <Button title={t('common.signOut')} onPress={() => void signOut()} variant="secondary" />

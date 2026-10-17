@@ -129,6 +129,13 @@
     "decidedAmount": "Amount to refund client",
     "decisionNote": "Decision note",
     "resolve": "Resolve case",
-    "casesNote": "Deciding leaves the remainder to the specialist. The money leaves escrow once."
+    "casesNote": "Deciding leaves the remainder to the specialist. The money leaves escrow once.",
+    "onboarding": "Onboarding payments",
+    "onboardingNote": "Confirm the one-time fee after the money arrives.",
+    "noOnboarding": "No onboarding payments waiting.",
+    "onboardingSubmitted": "Submitted:",
+    "onboardingConfirm": "Confirm and unlock console",
+    "audit": "Audit log",
+    "auditNote": "Every action, append-only. Never edited, never deleted."
   }
 }

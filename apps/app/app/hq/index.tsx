@@ -19,6 +19,12 @@ export default function HqHome() {
         <Link href="/hq/cases" asChild>
           <Button variant="secondary" title={t('hq.cases')} />
         </Link>
+        <Link href="/hq/onboarding" asChild>
+          <Button title={t('hq.onboarding')} />
+        </Link>
+        <Link href="/hq/audit" asChild>
+          <Button variant="secondary" title={t('hq.audit')} />
+        </Link>
       </View>
       <Button title={t('common.signOut')} onPress={() => void signOut()} variant="secondary" />
     </Screen>

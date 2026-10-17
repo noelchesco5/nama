@@ -11,6 +11,8 @@ export default function SpecialistLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="requests" options={{ headerShown: true, title: 'Requests' }} />
       <Stack.Screen name="earnings" options={{ headerShown: true, title: 'Earnings' }} />
+      <Stack.Screen name="schedule" options={{ headerShown: true, title: 'Schedule' }} />
+      <Stack.Screen name="onboarding" options={{ headerShown: true, title: 'Onboarding' }} />
     </Stack>
   );
 }

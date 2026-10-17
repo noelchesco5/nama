@@ -282,3 +282,20 @@ Still open: map (MapLibre+ORS) + dispatch ranking, specialist schedule screens
 (availability hooks exist in lib/specialist.ts), specialist console 2-gate
 onboarding fee card, HQ analytics/audit screens, KEYS-upsell: deploy the two
 edge functions (needs PAYME_* in supabase secrets), beta test USSD in sandbox.
+
+=== SESSION 3: push + sandbox guide + console gates + HQ depth ===
+- Pushed repo to github.com/noelchesco5/nama (main, 10 releases of commits).
+- CLI deploys BLOCKED: .env SUPABASE_ACCESS_TOKEN is EMPTY (sb_secret_ key is
+  not a Management PAT). Written exactly how the USER can deploy + test in
+  sandbox: docs/payme-sandbox-testing.md (deploy both fns, secrets set,
+  curl flow, portal webhook tester, double-credit test, prod switch,
+  troubleshooting table).
+- Specialist schedule screen (availability slots add/remove) shipped.
+- Two-gate onboarding shipped: platform_settings onboarding_fee_tzs (20000
+  default), request_onboarding_fee() + approve_onboarding() (064), specialist
+  fee card + home gate (approved but locked -> onboarding screen only),
+  HQ onboarding payments queue -> confirm-and-unlock with notification.
+- HQ audit log screen (last 100 events read-only).
+- All checks green (typecheck, oxlint, 14 unit tests, 5 SQL suites).
+Remaining for launch: MapLibre map + ORS ranking edge fn, HQ bookings overview
+counters, Cloudflare web deploy + PWA/APK (Phase 4 keys), keystore, backups.
