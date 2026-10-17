@@ -102,7 +102,7 @@ begin
   -- ---------------------------------------------------------------------
   perform set_config('request.jwt.claims',
     jsonb_build_object('role','authenticated','sub',hq)::text, true);
-  perform public.reject_topup(v_req2, 'reference not found');
+  perform public.reject_topup(v_req2, 'ref_not_found', 'reference not found');
   select status into v_status from public.payment_requests where id = v_req2;
   if v_status <> 'rejected' then raise exception 'expected rejected, got %', v_status; end if;
   select balance_tzs into v_bal from public.accounts where kind='client_wallet' and user_id=ca;
