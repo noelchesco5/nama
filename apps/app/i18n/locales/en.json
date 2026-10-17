@@ -45,6 +45,58 @@
     "appealNote": "Explain why you are appealing",
     "noRequests": "No top-up requests yet",
     "ok": "OK",
-    "reasonCode": "Reason"
+    "reasonCode": "Reason",
+    "paymeNote": "Pay from your phone with a mobile money prompt. Your wallet is credited automatically.",
+    "payWithPayme": "Pay now (USSD prompt)",
+    "phone": "Phone number (2557…)",
+    "noMerchants": "No payment numbers configured yet."
   },
+  "book": {
+    "find": "Find care",
+    "availableSpecialists": "Available specialists",
+    "noSpecialists": "No specialists available for this service yet.",
+    "rating": "Rating",
+    "newSpecialist": "New specialist",
+    "bookings": "Visit",
+    "myVisits": "My visits",
+    "noVisits": "No visits yet",
+    "pricePerVisit": "Price",
+    "step": "Step",
+    "date": "Date (YYYY-MM-DD)",
+    "time": "Time (HH:MM)",
+    "invalidTime": "Please check the date and time.",
+    "address": "Where should we come?",
+    "addressHint": "Street, landmark…",
+    "forName": "Who is the visit for?",
+    "forNameHint": "Leave empty for yourself",
+    "holdNote": "We will hold {amount} from your wallet until the specialist accepts. If they do not, it returns automatically.",
+    "confirmRequest": "Confirm request",
+    "for": "For",
+    "cancelBooking": "Cancel booking",
+    "dispute": "Report a problem",
+    "completeConfirm": "Visit done — confirm payment",
+    "reason": "Why (optional)"
+  },
+  "status": {
+    "requested": "Waiting for the specialist",
+    "accepted": "Accepted",
+    "declined": "Declined",
+    "in_progress": "In progress",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "disputed": "Under review",
+    "expired": "Expired"
+  },
+  "chat": {
+    "title": "Messages",
+    "send": "Send"
+  },
+  "review": {
+    "rating1to5": "Rating 1-5",
+    "comment": "Comment (optional)",
+    "submit": "Send review"
+  },
+  "case": {
+    "pendingReview": "A care team member is reviewing your refund."
+  }
 }

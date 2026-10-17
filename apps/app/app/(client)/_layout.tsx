@@ -10,6 +10,10 @@ export default function ClientLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="add-money" options={{ headerShown: true, title: 'Add money' }} />
+      <Stack.Screen name="find" options={{ headerShown: true, title: 'Find care' }} />
+      <Stack.Screen name="book" options={{ headerShown: true, title: 'Book a visit' }} />
+      <Stack.Screen name="bookings" options={{ headerShown: true, title: 'My visits' }} />
+      <Stack.Screen name="booking/[id]" options={{ headerShown: true, title: 'Visit' }} />
     </Stack>
   );
 }

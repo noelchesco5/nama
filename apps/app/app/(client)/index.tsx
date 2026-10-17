@@ -24,9 +24,15 @@ export default function ClientHome() {
         <Text style={styles.balanceLabel}>{t('wallet.balance')}</Text>
         <Text style={styles.balance}>{formatTzs(BigInt(balance ?? 0))}</Text>
         <Link href="/client/add-money" asChild>
-          <Button title={t('wallet.addMoney')} />
+          <Button variant="secondary" title={t('wallet.addMoney')} />
         </Link>
       </View>
+      <Link href="/(client)/find" asChild>
+        <Button title={t('book.find')} />
+      </Link>
+      <Link href="/(client)/bookings" asChild>
+        <Button variant="secondary" title={t('book.myVisits')} />
+      </Link>
       <View style={styles.requests}>
         <Text style={styles.sectionTitle}>{t('wallet.topupRequests')}</Text>
         {requests && requests.length === 0 && (

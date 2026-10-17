@@ -418,3 +418,10 @@ enabled = true
 # formatted with uppercase keywords, indent 2, max width 180, trailing commas,
 # and column/key alignment. Set to "null" to emit raw, unformatted SQL.
 # format_options = "{\"keywordCase\":\"upper\",\"indent\":2,\"maxWidth\":180,\"commaStyle\":\"trailing\"}"
+
+# Payme Africa webhook: authenticated by X-Middleware-Signature, not Supabase JWT.
+[functions.payme-webhook]
+verify_jwt = false
+
+[functions.payme-collection]
+verify_jwt = true

@@ -45,6 +45,58 @@
     "appealNote": "Eleza sababu ya kurudia ombi",
     "noRequests": "Hakuna maombi bado",
     "ok": "Sawa",
-    "reasonCode": "Sababu"
+    "reasonCode": "Sababu",
+    "paymeNote": "Lipa simu yako kwa mtandao wa pesa runtuni. Pochi yako inajazwa yenyewe.",
+    "payWithPayme": "Lipa sasa (kiashiria cha USSD)",
+    "phone": "Namba ya simu (2557…)",
+    "noMerchants": "Hakuna namba za malipo bado."
   },
+  "book": {
+    "find": "Tafuta huduma",
+    "availableSpecialists": "Wataalamu waliopo",
+    "noSpecialists": "Hakuna mtaalamu aliyeandikishwa kwa huduma hii bado.",
+    "rating": "Kiwango",
+    "newSpecialist": "Mtaalamu mpya",
+    "bookings": "Tembeleo",
+    "myVisits": "Tembeleo zangu",
+    "noVisits": "Hakuna tembeleo bado",
+    "pricePerVisit": "Bei",
+    "step": "Hatua",
+    "date": "Tarehe (YYYY-MM-DD)",
+    "time": "Saa (HH:MM)",
+    "invalidTime": "Tafadhali angalia tarehe na saa.",
+    "address": "Tufike wapi?",
+    "addressHint": "Mtaa, alama…",
+    "forName": "Nani atapewa huduma?",
+    "forNameHint": "Acha wewe mwenyewe",
+    "holdNote": "Tunashika {amount} kutoka kwa pochi yako mpaka mtaalamu akubali. Akilikataa, inarudi yenyewe.",
+    "confirmRequest": "Thibitisha ombi",
+    "for": "Kwa",
+    "cancelBooking": "Ghairitembeleo",
+    "dispute": "Ripati tatizo",
+    "completeConfirm": "Tembeleo lisha — thibitisha malipo",
+    "reason": "Sababu (si lazima)"
+  },
+  "status": {
+    "requested": "Inasubiri mtaalamu",
+    "accepted": "Imechukuliwa",
+    "declined": "Imekataliwa",
+    "in_progress": "Inaendelea",
+    "completed": "Imekamilika",
+    "cancelled": "Imeghairiwa",
+    "disputed": "Inapitiwa macho",
+    "expired": "Muda umeisha"
+  },
+  "chat": {
+    "title": "Ujumbe",
+    "send": "Tuma"
+  },
+  "review": {
+    "rating1to5": "Kiwango 1-5",
+    "comment": "Maoni (si lazima)",
+    "submit": "Tuma maoni"
+  },
+  "case": {
+    "pendingReview": "Timu yetu inapitia marejesho yako."
+  }
 }
