@@ -168,7 +168,7 @@ export default function SignUp() {
                 We respect your privacy. NIDA identification numbers, phone numbers, and location data are collected solely for safety, identity verification, and dispatch coordination, stored securely and never sold to third parties.
               </Text>
             </ScrollView>
-            <Button title="Close & Accept" onPress={() => setShowTermsModal(false)} />
+            <Button title="Close & Accept" onPress={() => { setAgreedToTerms(true); setShowTermsModal(false); }} />
           </View>
         </View>
       </Modal>
