@@ -35,3 +35,4 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           npx wrangler pages deploy apps/app/dist --project-name=nama --commit-dirty=true
+# trigger deploy
