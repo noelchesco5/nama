@@ -1,4 +1,4 @@
-name: Deploy Web
+name: Deploy Worker
 
 on:
   push:
@@ -29,16 +29,9 @@ jobs:
           EXPO_PUBLIC_SUPABASE_ANON_KEY: 'b2c69b30feed5e3fd2f2c4869781772404e7d501f076ccf1934b07fbe5d315c1'
         run: pnpm --filter @nama/app run export:web
 
-      - name: Ensure Cloudflare Pages Project Exists
+      - name: Deploy to Cloudflare Worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          npx wrangler pages project create nama --production-branch main || true
-
-      - name: Deploy to Cloudflare Pages via Wrangler
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          npx wrangler pages deploy apps/app/dist --project-name=nama --commit-dirty=true
+          npx wrangler deploy --commit-dirty=true
