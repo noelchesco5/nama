@@ -26,7 +26,7 @@ jobs:
       - name: Export web
         env:
           EXPO_PUBLIC_SUPABASE_URL: 'https://fgrvexkhluhlxgxfqgmn.supabase.co'
-          EXPO_PUBLIC_SUPABASE_ANON_KEY: 'b2c69b30feed5e3fd2f2c4869781772404e7d501f076ccf1934b07fbe5d315c1'
+          EXPO_PUBLIC_SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZncnZleGtobHVobHhneGZxZ21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwODMyMzYsImV4cCI6MjEwNzY1OTIzNn0.nJhLPbu53wQaxbkLoxZREMVKWxwvHZqma5lmmqX8Tkg'
         run: pnpm --filter @nama/app run export:web
 
       - name: Deploy to Cloudflare Worker
