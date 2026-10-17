@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'expo-router';
 
 import { Button, Screen, Title } from '@/components/ui';
 import { useAuth } from '@/lib/auth';
@@ -11,7 +12,11 @@ export default function HqHome() {
   return (
     <Screen>
       <Title>{t('home.hqTitle')}</Title>
-      <View style={styles.body} />
+      <View style={styles.body}>
+        <Link href="/hq/payments" asChild>
+          <Button title={t('wallet.topupRequests')} />
+        </Link>
+      </View>
       <Button title={t('common.signOut')} onPress={() => void signOut()} variant="secondary" />
     </Screen>
   );

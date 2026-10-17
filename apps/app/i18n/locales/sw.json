@@ -24,10 +24,27 @@
     "changePasswordTitle": "Chagua nenosiri jipya",
     "mustChange": "Kwa usalama wako, tafadhali chagua nenosiri jipya kabla ya kuendelea."
   },
-  "home": {
-    "clientGreeting": "Habari",
-    "specialistPending": "Maombi yako yanapitiwa",
-    "specialistPendingBody": "Tutakujulisha mara tu akaunti yako itakapoidhinishwa.",
-    "hqTitle": "Nama HQ"
-  }
+  "wallet": {
+    "title": "Mkoba",
+    "balance": "Salio",
+    "addMoney": "Ongeza pesa",
+    "topupRequests": "Maombi ya kuongeza pesa",
+    "amountTZS": "Kiasi (TZS)",
+    "network": "Mtandao",
+    "merchant": "Mchukuaji",
+    "reference": "Rejea (namba ya muamala)",
+    "screenshot": "Picha ya muamala (si lazima)",
+    "submit": "Wasilisha ombi",
+    "pending": "Inasubiri",
+    "approved": "Imeidhinishwa",
+    "rejected": "Imekataliwa",
+    "expired": "Muda umeisha",
+    "cancel": "Ghairi ombi",
+    "appeal": "Rudia ombi",
+    "resolve": "Amua",
+    "appealNote": "Eleza sababu ya kurudia ombi",
+    "noRequests": "Hakuna maombi bado",
+    "ok": "Sawa",
+    "reasonCode": "Sababu"
+  },
 }

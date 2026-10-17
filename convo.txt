@@ -239,3 +239,10 @@ against the app path.
 - Open in Phase 1: partial refund ≤75% + no-show postings, appeals/cancel/
   reason codes/rate limits, payment-evidence bucket, HQ merchant audit fn,
   client wallet + add-money UI, HQ payments queue.
+
+Phase 0: complete (app scaffold, auth/RLS, CI). All SQL tests pass on hosted. Anon key/wired. Web export 12 routes.
+Phase 1 backend: ledger, post_txn, top-up state machine, appeals/reject/cancel/resolve, reason codes, max_refund_allowed, hq_set_merchant, payment-evidence bucket, rate limits, UI helpers. All 4 SQL tests pass.
+Phase 1 UI: client wallet + add-money, HQ payments queue (minimal). Expo web export OK.
+
+Everything committed (bb59e2c, 6982dbe) and migrations applied. No secrets committed. Workspace checks green.
+done

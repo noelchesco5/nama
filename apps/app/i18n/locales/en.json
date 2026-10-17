@@ -24,10 +24,27 @@
     "changePasswordTitle": "Choose a new password",
     "mustChange": "For your security, please choose a new password before continuing."
   },
-  "home": {
-    "clientGreeting": "Hello",
-    "specialistPending": "Your application is being reviewed",
-    "specialistPendingBody": "We will let you know as soon as your account is approved.",
-    "hqTitle": "Nama HQ"
-  }
+  "wallet": {
+    "title": "Wallet",
+    "balance": "Balance",
+    "addMoney": "Add money",
+    "topupRequests": "Top-up requests",
+    "amountTZS": "Amount (TZS)",
+    "network": "Network",
+    "merchant": "Merchant",
+    "reference": "Reference (transaction code)",
+    "screenshot": "Screenshot (optional)",
+    "submit": "Submit top-up request",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "expired": "Expired",
+    "cancel": "Cancel request",
+    "appeal": "Appeal",
+    "resolve": "Resolve",
+    "appealNote": "Explain why you are appealing",
+    "noRequests": "No top-up requests yet",
+    "ok": "OK",
+    "reasonCode": "Reason"
+  },
 }
