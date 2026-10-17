@@ -98,5 +98,37 @@
   },
   "case": {
     "pendingReview": "A care team member is reviewing your refund."
+  },
+  "sp": {
+    "requests": "Care requests",
+    "noRequests": "No new requests right now.",
+    "respondWithin": "Respond within the acceptance window or it expires automatically.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "start": "Arrived — start visit",
+    "complete": "Mark visit done",
+    "noShow": "Client did not show",
+    "repeats": "Repeat requests",
+    "repeatAsk": "A past client wants to book you again.",
+    "upcoming": "Upcoming visits",
+    "noUpcoming": "Nothing scheduled yet.",
+    "earnings": "Earnings",
+    "earnBalance": "Available earnings",
+    "withdrawAmount": "Amount (TZS)",
+    "requestWithdrawal": "Request withdrawal",
+    "withdrawals": "Withdrawals",
+    "noWithdrawals": "No withdrawals yet",
+    "w_pending": "Waiting for HQ",
+    "w_paid": "Paid",
+    "w_rejected": "Not paid"
+  },
+  "hq": {
+    "cases": "Refund cases",
+    "noCases": "No open cases.",
+    "caseAmount": "Case amount",
+    "decidedAmount": "Amount to refund client",
+    "decisionNote": "Decision note",
+    "resolve": "Resolve case",
+    "casesNote": "Deciding leaves the remainder to the specialist. The money leaves escrow once."
   }
 }

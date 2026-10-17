@@ -16,6 +16,9 @@ export default function HqHome() {
         <Link href="/hq/payments" asChild>
           <Button title={t('wallet.topupRequests')} />
         </Link>
+        <Link href="/hq/cases" asChild>
+          <Button variant="secondary" title={t('hq.cases')} />
+        </Link>
       </View>
       <Button title={t('common.signOut')} onPress={() => void signOut()} variant="secondary" />
     </Screen>

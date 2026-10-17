@@ -3,12 +3,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Screen, Subtitle, Title } from '@/components/ui';
+import { useRouter } from 'expo-router';
 import { useAuth } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
 import { colors } from '@/constants/theme';
 
 export default function SpecialistHome() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { user, signOut } = useAuth();
   const [status, setStatus] = useState<string | null>(null);
 
@@ -41,6 +43,12 @@ export default function SpecialistHome() {
       ) : (
         <View style={styles.body}>
           <Subtitle>{t('common.appName')}</Subtitle>
+          <Button title={t('sp.requests')} onPress={() => router.push('/(specialist)/requests')} />
+          <Button
+            variant="secondary"
+            title={t('sp.earnings')}
+            onPress={() => router.push('/(specialist)/earnings')}
+          />
         </View>
       )}
       <Button title={t('common.signOut')} onPress={() => void signOut()} variant="secondary" />

@@ -247,3 +247,38 @@ Phase 1 UI: client wallet + add-money, HQ payments queue (minimal). Expo web exp
 Everything committed (bb59e2c, 6982dbe) and migrations applied. No secrets committed. Workspace checks green.
 done
 ...
+
+=== CONTINUATION (Codebuff session) - PHASE 2/3 COMPLETE, PAYME LIVE ===
+Reviewed prior state + plan, then executed:
+- Phase 2/3 lifecycle implemented + tested end to end (all 5 SQL suites green):
+  request_booking holds price -> accept/decline in 15-min window -> cron
+  expire releases hold; cancel tiers (>6h full, <6h opens refund_case held
+  until HQ resolves; tier caps via max_refund_allowed); complete splits
+  fee(7%)/revenue/earnings; dispute; no-show refund minus 10% penalty;
+  repeats book with NO hold until specialist accepts; one-review-per-booking;
+  withdrawals (specialist requests, HQ pays/rejects); chat participant-only
+  in RLS, HQ reads only via audited hq_read_chat(uuid, from, to).
+  Migrations: 059 (enum 'expired'), 060 lifecycle, 061/062 fixes
+  (post_refund takes a uuid id; repeat-accept core split into
+  _create_booking_with_hold so specialists can create client bookings).
+- find_specialists(063): privacy-safe client discovery (RLS keeps
+  specialist_profiles owner/HQ-only); returns approved specialists' listing +
+  approx distance + rating; ORS edge function can build on it later.
+- Payme Africa AUTOMATED top-ups (key in .env/docs noted; edge env only):
+  payme-collection edge fn = authenticated, amount read server-side from the
+  pending request, reference topup:<id>, HMAC-signed USSD push;
+  payme-webhook (verify_jwt=false in config.toml) verifies
+  X-Middleware-Signature and credits via _apply_topup_approval (idempotent);
+  FAILED marks request rejected. Add-money UI: file request -> phone ->
+  "Pay now (USSD prompt)". No HQ manual gate on Payme path anymore.
+- Client UI: Find care (services + listings), 3-step book flow, booking
+  detail (status, cancel/dispute/complete, review, chat), My visits, links
+  from home. No new deps (dropped dayjs idea, plain Date).
+- Specialist UI: requests queue (accept/decline/on-completion/no-show),
+  repeats queue, earnings + withdrawals screens, registered routes.
+- HQ UI: refund cases queue with decided-amount resolution (remainder ->
+  specialist earnings), wired into HQ home/layout.
+Still open: map (MapLibre+ORS) + dispatch ranking, specialist schedule screens
+(availability hooks exist in lib/specialist.ts), specialist console 2-gate
+onboarding fee card, HQ analytics/audit screens, KEYS-upsell: deploy the two
+edge functions (needs PAYME_* in supabase secrets), beta test USSD in sandbox.

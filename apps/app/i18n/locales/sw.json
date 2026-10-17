@@ -98,5 +98,37 @@
   },
   "case": {
     "pendingReview": "Timu yetu inapitia marejesho yako."
+  },
+  "sp": {
+    "requests": "Maombi ya huduma",
+    "noRequests": "Hakuna maombi mapya kwa sasa.",
+    "respondWithin": "Jibu ndani ya dirisha la kukubali au litaisha yenyewe.",
+    "accept": "Kubali",
+    "decline": "Kataa",
+    "start": "Nimefika — anza tembeleo",
+    "complete": "Tembeleo limeisha",
+    "noShow": "Mteja hakufika",
+    "repeats": "Maombi ya kurudia",
+    "repeatAsk": "Mteja wa zamani anataka kukubali tena nawe.",
+    "upcoming": "Tembeleo lijalo",
+    "noUpcoming": "Hakuna kilichopangwa bado.",
+    "earnings": "Mapato",
+    "earnBalance": "Mapato yaliyopo",
+    "withdrawAmount": "Kiasi (TZS)",
+    "requestWithdrawal": "Omba kutoa fedha",
+    "withdrawals": "Kutoa fedha",
+    "noWithdrawals": "Hakuna bado",
+    "w_pending": "Inasubiri HQ",
+    "w_paid": "Imelipwa",
+    "w_rejected": "Hakulipiwa"
+  },
+  "hq": {
+    "cases": "Maswala ya marejesho",
+    "noCases": "Hakuna maswala wazi.",
+    "caseAmount": "Kiasi cha swala",
+    "decidedAmount": "Kiasi cha kumrejesha mteja",
+    "decisionNote": "Maoni ya uamuzi",
+    "resolve": "Azima swala",
+    "casesNote": "Unapoazima, kilichobaki kwenda kwa mtaalamu. Fedha hutoka escrow mara moja."
   }
 }

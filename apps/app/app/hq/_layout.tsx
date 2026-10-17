@@ -10,6 +10,7 @@ export default function HqLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="payments" options={{ headerShown: true, title: 'Payments' }} />
+      <Stack.Screen name="cases" options={{ headerShown: true, title: 'Refund cases' }} />
     </Stack>
   );
 }
