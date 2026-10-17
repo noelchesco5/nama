@@ -33,9 +33,8 @@ describe("signUpSchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("requires a Tanzanian phone number and accepted terms", () => {
+  it("requires a Tanzanian phone number", () => {
     expect(signUpSchema.safeParse({ ...base, phone: "0712345678" }).success).toBe(false);
-    expect(signUpSchema.safeParse({ ...base, acceptedTerms: false }).success).toBe(false);
   });
 });
 

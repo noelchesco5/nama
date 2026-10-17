@@ -33,7 +33,6 @@ export const signUpSchema = z.object({
   password: passwordSchema,
   intendedRole: intendedRoleSchema,
   locale: localeSchema,
-  acceptedTerms: z.literal(true, { error: "Please accept the Terms and Privacy Policy." }),
 });
 export type SignUpInput = z.infer<typeof signUpSchema>;
 
