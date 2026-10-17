@@ -246,3 +246,4 @@ Phase 1 UI: client wallet + add-money, HQ payments queue (minimal). Expo web exp
 
 Everything committed (bb59e2c, 6982dbe) and migrations applied. No secrets committed. Workspace checks green.
 done
+...
