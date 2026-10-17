@@ -1,11 +1,12 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ErrorText, Field, Screen, Title } from '@/components/ui';
+import { Button, ErrorText, Field, Screen, Title, Card } from '@/components/ui';
 import { useAuth } from '@/lib/auth';
 import { emailSchema, passwordSchema } from '@nama/shared';
+import { colors } from '@/constants/theme';
 
 export default function SignIn() {
   const { t } = useTranslation();
@@ -20,54 +21,75 @@ export default function SignIn() {
     setError(null);
     const parsedEmail = emailSchema.safeParse(email.trim().toLowerCase());
     if (!parsedEmail.success) {
-      setError(t('auth.email'));
+      setError('Please enter a valid email address.');
       return;
     }
     if (!passwordSchema.safeParse(password).success) {
-      setError(t('auth.password'));
+      setError('Password must be at least 8 characters.');
       return;
     }
     setBusy(true);
     try {
       await signIn(parsedEmail.data, password);
     } catch (e) {
-      setError(e instanceof Error ? e.message : t('common.error'));
+      const msg = e instanceof Error ? e.message : String(e);
+      if (msg.includes('Invalid login credentials') || msg.includes('invalid') || msg.includes('credentials')) {
+        setError('Incorrect email or password. Please try again.');
+      } else {
+        setError('Unable to sign in. Please check your connection and try again.');
+      }
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <Screen>
-      <Title>{t('auth.signInTitle')}</Title>
+    <Screen scroll>
+      <View style={styles.header}>
+        <Title>{t('auth.signInTitle')}</Title>
+        <Text style={styles.subTitle}>Sign in to access your dashboard and manage care.</Text>
+      </View>
 
-      <Field
-        label={t('auth.email')}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        textContentType="emailAddress"
-        autoComplete="email"
-      />
-      <Field
-        label={t('auth.password')}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        textContentType="password"
-        autoComplete="current-password"
-      />
+      <Card style={styles.card}>
+        <Field
+          label={t('auth.email')}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          textContentType="emailAddress"
+          autoComplete="email"
+          placeholder="name@example.com"
+        />
+        <Field
+          label={t('auth.password')}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          textContentType="password"
+          autoComplete="current-password"
+          placeholder="Enter your password"
+        />
 
-      {error ? <ErrorText>{error}</ErrorText> : null}
+        {error ? <ErrorText message={error} /> : null}
 
-      <Button title={t('auth.signIn')} onPress={onSubmit} loading={busy} />
+        <Button title={t('auth.signIn')} onPress={onSubmit} loading={busy} />
+      </Card>
 
-      <View style={{ flexDirection: 'row', gap: 6 }}>
-        <Text>{t('auth.noAccount')}</Text>
-        <Link href="/(auth)/sign-up" style={{ color: '#0B6B57', fontWeight: '700' }}>
+      <View style={styles.row}>
+        <Text style={styles.footerPrompt}>{t('auth.noAccount')} </Text>
+        <Link href="/(auth)/sign-up" style={styles.link}>
           {t('auth.signUp')}
         </Link>
       </View>
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  header: { gap: 4, marginBottom: 8 },
+  subTitle: { fontSize: 15, color: colors.charcoal, opacity: 0.7 },
+  card: { padding: 24, borderRadius: 20, gap: 16 },
+  row: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 16 },
+  footerPrompt: { color: colors.charcoal, opacity: 0.8 },
+  link: { color: colors.deepGreen, fontWeight: '800' },
+});

@@ -48,7 +48,12 @@ export default function SignUp() {
       });
       setDone(true);
     } catch (e) {
-      setError(e instanceof Error ? e.message : t('common.error'));
+      const msg = e instanceof Error ? e.message : String(e);
+      if (msg.includes('already registered') || msg.includes('unique constraint') || msg.includes('already exists')) {
+        setError('An account with this email already exists. Please sign in instead.');
+      } else {
+        setError('Unable to create account. Please check your details and try again.');
+      }
     } finally {
       setBusy(false);
     }
@@ -60,7 +65,7 @@ export default function SignUp() {
         <Card variant="mint" style={styles.successCard}>
           <Title>Account created successfully!</Title>
           <Text style={styles.successText}>
-            Welcome to Nama. You can now sign in with your email and password to access your dashboard.
+            Welcome to Nama! To enable instant sign-in without email verification (ideal for testing/free tier), please ensure <Text style={{fontWeight: '700'}}>Enable Email Confirmations</Text> is turned <Text style={{fontWeight: '700'}}>OFF</Text> in your Supabase Dashboard under <Text style={{fontWeight: '700'}}>Authentication &gt; Providers &gt; Email</Text>.
           </Text>
           <Button title={t('auth.signIn')} onPress={() => router.replace('/(auth)/sign-in')} />
         </Card>
