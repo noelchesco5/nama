@@ -75,7 +75,9 @@
     "cancelBooking": "Ghairitembeleo",
     "dispute": "Ripati tatizo",
     "completeConfirm": "Tembeleo lisha — thibitisha malipo",
-    "reason": "Sababu (si lazima)"
+    "reason": "Sababu (si lazima)",
+    "forSelf": "kwa wewe mwenyewe",
+    "noAddress": "hakuna anwani bado"
   },
   "status": {
     "requested": "Inasubiri mtaalamu",
@@ -137,5 +139,32 @@
     "onboardingConfirm": "Thibitisha na fungua kasa",
     "audit": "Kumbukumbu ya ukaguzi",
     "auditNote": "Kila kitendo, huongezwa tu. Hiehoki kubadilishwa."
+  },
+  "onb": {
+    "title": "Ada ya kuanza",
+    "subtitle": "Hatua ya mwisho kabla zana zako za kazi hazijafunguka.",
+    "how1": "HQ imepitisha hati zako. Sasa lipia ada ya mara moja.",
+    "how2": "Tuma kiasi hicho kikamilifu kwa namba ya biashara ya Nama.",
+    "how3": "Bofya \"Nimelipa\" — HQ ithibitisha kasa zako zifunguke.",
+    "amount": "Ada",
+    "iPaid": "Nimelipa",
+    "waiting": "Malipo yamepokelewa. HQ ithibitisha hivi karibuni.",
+    "gated": "Hati zako zimeidhinishwa. Lipia ada ya mara moja kufungua kasa yako."
+  },
+  "sched": {
+    "title": "Ratiba yangu",
+    "from": "Nipoa kuanzia",
+    "to": "Hadini",
+    "add": "Ongeza muda",
+    "slots": "Muda uliotangazwa",
+    "empty": "Hujatangaza muda wako bado. Wateja hawakubali bila muda.",
+    "remove": "Bofya kuondoa",
+    "invalid": "Angalia tarehe: mwisho lazima uwe baada ya kuanza."
+  },
+  "home": {
+    "clientGreeting": "Karibu",
+    "hqTitle": "Kasa ya HQ",
+    "specialistPending": "Idhini inakaguliwa",
+    "specialistPendingBody": "Timu yetu inapitia hati zako. Utajulishwa hivi karibuni kasa yako itakapofunguka."
   }
 }

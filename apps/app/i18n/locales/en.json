@@ -75,7 +75,9 @@
     "cancelBooking": "Cancel booking",
     "dispute": "Report a problem",
     "completeConfirm": "Visit done — confirm payment",
-    "reason": "Why (optional)"
+    "reason": "Why (optional)",
+    "forSelf": "for yourself",
+    "noAddress": "no address yet"
   },
   "status": {
     "requested": "Waiting for the specialist",
@@ -137,5 +139,32 @@
     "onboardingConfirm": "Confirm and unlock console",
     "audit": "Audit log",
     "auditNote": "Every action, append-only. Never edited, never deleted."
+  },
+  "onb": {
+    "title": "Onboarding fee",
+    "subtitle": "One last step before your business tools open.",
+    "how1": "HQ reviewed your documents. Now pay the one-time onboarding fee.",
+    "how2": "Send the exact amount to the Nama merchant number.",
+    "how3": "Tap \"I have paid\" — HQ then confirms and your console unlocks.",
+    "amount": "Fee",
+    "iPaid": "I have paid",
+    "waiting": "Payment filed. HQ will confirm shortly.",
+    "gated": "Your documents were approved. Pay the one-time onboarding fee to open your console."
+  },
+  "sched": {
+    "title": "My schedule",
+    "from": "Free from",
+    "to": "Free until",
+    "add": "Add time",
+    "slots": "Published availability",
+    "empty": "No availability published yet. Clients cannot book you without it.",
+    "remove": "Tap to remove",
+    "invalid": "Check the dates: end must be after start."
+  },
+  "home": {
+    "clientGreeting": "Welcome",
+    "hqTitle": "HQ console",
+    "specialistPending": "Approval in review",
+    "specialistPendingBody": "Our team is reviewing your documents. You will be notified the moment your console opens."
   }
 }
