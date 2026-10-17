@@ -89,6 +89,6 @@ jobs:
           for f in supabase/tests/*.sql; do
             echo "== $f =="
             psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
-              -v ON_ERROR_STOP=1 -f "$f" | tee /tmp/pg.log
+              -v ON_ERROR_STOP=1 -f "$f" 2>&1 | tee /tmp/pg.log
             grep -q "TESTS_PASSED" /tmp/pg.log
           done
