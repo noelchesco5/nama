@@ -13,7 +13,7 @@ export default function ClientHome() {
   const { t } = useTranslation();
   const { data: balance } = useWalletBalance();
   const { data: requests } = useMyPaymentRequests();
-  const queryClient = useQueryClient();
+  const _queryClient = useQueryClient();
 
   return (
     <Screen>

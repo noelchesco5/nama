@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 import {
   ActivityIndicator,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,8 +13,19 @@ import {
 
 import { colors, radius, spacing } from '@/constants/theme';
 
-export function Screen({ children }: { children: ReactNode }) {
-  return <View style={styles.screen}>{children}</View>;
+export function Screen({ children, scroll }: { children: ReactNode; scroll?: boolean }) {
+  if (scroll) {
+    return (
+      <ScrollView
+        style={styles.screen}
+        contentContainerStyle={styles.screenContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        {children}
+      </ScrollView>
+    );
+  }
+  return <View style={styles.screen}><View style={styles.screenContentCentered}>{children}</View></View>;
 }
 
 export function Title({ children }: { children: ReactNode }) {
@@ -45,7 +57,7 @@ export function Field({
 
 type ButtonProps = {
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
   loading?: boolean;
   disabled?: boolean;
   variant?: 'primary' | 'secondary';
@@ -85,14 +97,24 @@ export function Button({
   );
 }
 
-export function ErrorText({ children }: { children: ReactNode }) {
-  return <Text style={styles.error}>{children}</Text>;
+export function ErrorText({ children, message }: { children?: ReactNode; message?: string }) {
+  const content = message ?? children;
+  if (!content) return null;
+  return <Text style={styles.error}>{content}</Text>;
 }
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.softWhite,
+  },
+  screenContent: {
+    flexGrow: 1,
+    padding: spacing.xl,
+    gap: spacing.lg,
+  },
+  screenContentCentered: {
+    flex: 1,
     padding: spacing.xl,
     gap: spacing.lg,
     justifyContent: 'center',

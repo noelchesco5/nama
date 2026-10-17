@@ -10,7 +10,7 @@ import { requestTopup, useMerchantNumbers } from '@/lib/wallet';
 export default function AddMoney() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const { data: merchants } = useMerchantNumbers();
+  const { data: _merchants } = useMerchantNumbers();
   const [amount, setAmount] = useState('');
   const [reference, setReference] = useState('');
   const [merchantId, setMerchantId] = useState('');
